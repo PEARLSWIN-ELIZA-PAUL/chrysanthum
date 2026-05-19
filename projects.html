@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Chrysanthum</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,100..900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #12153d;
+      --navy-deep: #0b0d28;
+      --navy-mid:  #181c4a;
+      --crimson:   #e0163a;
+      --cream:     #f5f0e8;
+      --cream-dim: #c8c3ba;
+      --cream-faint: rgba(245,240,232,0.06);
+      --ink:       #e8e3db;
+      --gold:      #c9a55a;
+
+      /* Synced fonts from main index page */
+      --brush:     'Fraunces', serif;
+      --script:    'Fraunces', serif;
+      --satisfy:   'Fraunces', serif;
+      --body:      'Fraunces', serif;
+      --editorial: 'Fraunces', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy-deep); color: var(--cream);
+      font-family: var(--body); font-weight: 300; line-height: 1.75;
+      cursor: none; overflow-x: hidden;
+    }
+
+    /* CURSOR */
+    #cur { position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); top: -50px; left: -50px; }
+    #cur svg { width: 30px; height: 30px; animation: spin 10s linear infinite; filter: drop-shadow(0 0 5px rgba(224,22,58,.5)); transition: width .2s, height .2s; }
+    body:has(a:hover) #cur svg, body:has(button:hover) #cur svg { width: 44px; height: 44px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* NAV */
+    /* ── NAV ── */
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:500;
+
+    height:80px;              /* fixed navbar height */
+    padding:0 3rem;           /* only horizontal padding */
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:transparent;
+    border-bottom:1px solid transparent;
+    transition:background .4s,border-color .4s;
+}
+
+nav.scrolled{
+    background:rgba(11,13,40,.95);
+    backdrop-filter:blur(14px);
+    border-color:rgba(224,22,58,.18);
+}
+
+.nav-logo{
+    display:flex;
+    align-items:center;
+    gap:.8rem;
+    text-decoration:none;
+}
+
+.nav-logo img{
+    width:42px;
+    height:42px;
+    object-fit:cover;
+    border-radius:50%;
+}
+
+.nav-logo span{
+    font-family:var(--brush);
+    font-size:1.5rem;
+    line-height:1;
+    color:var(--cream);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:2rem;
+    list-style:none;
+}
+
+.nav-links a{
+    font-family:var(--script);
+    font-size:1rem;
+    color:var(--cream-dim);
+    text-decoration:none;
+    transition:.2s;
+}
+
+.nav-links a:hover{
+    color:var(--crimson);
+}
+
+@media(max-width:768px){
+    nav{
+        height:70px;
+        padding:0 1.5rem;
+    }
+}
+
+    /* PAGE HERO */
+
+    .page-hero { min-height: 36vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 8rem 3rem 3rem; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 80% at 30% 60%, rgba(224,22,58,.11) 0%, transparent 65%); pointer-events: none; }
+    .page-hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
+    .page-eyebrow { font-family: var(--script); font-size: 1.2rem; color: var(--crimson); letter-spacing: .08em; margin-bottom: .6rem; opacity: 0; animation: fadeUp .7s .2s forwards; }
+    .page-title { font-family: var(--brush); font-size: clamp(3.5rem, 8vw, 6rem); line-height: 1; color: var(--cream); opacity: 0; animation: fadeUp .8s .4s forwards; }
+    .page-subtitle { font-family: var(--satisfy); font-size: 1.3rem; color: var(--cream-dim); margin-top: .8rem; opacity: 0; animation: fadeUp .7s .6s forwards; }
+
+    /* TABS */
+    .tab-nav-wrap { position: sticky; top: 65px; z-index: 400; background: rgba(11,13,40,.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(224,22,58,.15); border-top: 1px solid rgba(224,22,58,.08); }
+    .tab-nav { max-width: 1100px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-btn { font-family: var(--script); font-size: 1.05rem; color: var(--cream-dim); background: none; border: none; padding: 1rem 2rem; cursor: none; white-space: nowrap; transition: color .25s; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    .tab-btn:hover { color: var(--cream); }
+    .tab-btn.active { color: var(--crimson); border-bottom-color: var(--crimson); }
+    .tab-count { font-family: var(--body); font-size: .65rem; background: rgba(224,22,58,.15); color: var(--crimson); padding: .1rem .45rem; border-radius: 20px; margin-left: .4rem; vertical-align: middle; }
+
+    /* SECTIONS */
+    .projects-section { display: none; padding: 3rem 3rem 6rem; }
+    .projects-section.active { display: block; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { margin-bottom: 2.5rem; }
+    .section-header-eyebrow { font-family: var(--script); font-size: 1.15rem; color: var(--crimson); margin-bottom: .4rem; }
+    .section-header-title { font-family: var(--brush); font-size: clamp(2.2rem, 4.5vw, 3.5rem); line-height: 1.1; color: var(--cream); }
+    .section-header-desc { font-family: var(--body); font-size: .98rem; color: var(--cream-dim); margin-top: .6rem; max-width: 700px; }
+
+    /* PROJECT GRID */
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.5rem; }
+
+    /* PROJECT CARD */
+    .project-card { background: var(--navy); border: 1px solid rgba(224,22,58,.12); position: relative; overflow: hidden; transition: border-color .3s, transform .3s; display: flex; flex-direction: column; }
+    .project-card:hover { border-color: rgba(224,22,58,.45); transform: translateY(-4px); }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--crimson), transparent); transform: scaleX(0); transition: transform .4s; }
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .card-thumb { width: 100%; aspect-ratio: 16/9; background: var(--navy-mid); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-bottom: 1px solid rgba(224,22,58,.1); }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card-thumb-icon { font-size: 3rem; opacity: .35; }
+    .card-thumb-badge { position: absolute; bottom: .7rem; right: .7rem; font-family: var(--script); font-size: .85rem; padding: .2rem .75rem; border-radius: 2px; }
+    .badge-pdf { background: rgba(224,22,58,.85); color: white; }
+    .badge-video { background: rgba(201,165,90,.9); color: #12153d; }
+    .badge-insta { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+    .badge-soon { background: rgba(245,240,232,.12); color: var(--cream-dim); }
+
+    .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .card-category { font-family: var(--script); font-size: .88rem; color: var(--crimson); margin-bottom: .4rem; }
+    .card-title { font-family: var(--brush); font-size: 1.5rem; line-height: 1.2; margin-bottom: .6rem; color: var(--cream); }
+    .card-desc { font-size: .95rem; color: var(--cream-dim); line-height: 1.7; flex: 1; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+    .card-tag { font-family: var(--script); font-size: .9rem; padding: .18rem .65rem; border: 1px solid rgba(224,22,58,.28); color: var(--crimson); border-radius: 2px; }
+    .card-actions { padding: 1rem 1.5rem; border-top: 1px solid rgba(245,240,232,.06); display: flex; gap: .7rem; flex-wrap: wrap; }
+    .card-btn { font-family: var(--script); font-size: 1rem; padding: .5rem 1.2rem; border: 1px solid; border-radius: 2px; cursor: none; transition: all .25s; text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; background: none; }
+    .card-btn-crimson { background: var(--crimson); color: white; border-color: var(--crimson); }
+    .card-btn-crimson:hover { background: transparent; color: var(--crimson); }
+    .card-btn-gold { background: var(--gold); color: var(--navy-deep); border-color: var(--gold); }
+    .card-btn-gold:hover { background: transparent; color: var(--gold); }
+    .card-btn-insta { background: linear-gradient(135deg, #f09433, #dc2743, #bc1888); color: white; border-color: transparent; }
+    .card-btn-insta:hover { opacity: .8; }
+    .card-btn-ghost { color: var(--cream-dim); border-color: rgba(245,240,232,.18); }
+    .card-btn-ghost:hover { color: var(--cream); border-color: rgba(245,240,232,.4); }
+
+    /* PHONE MOCKUP SECTION */
+    .phone-showcase {
+      margin: 0 0 4rem;
+      padding: 3rem 2.5rem;
+      background: var(--navy-mid);
+      border: 1px solid rgba(224,22,58,.15);
+      position: relative; overflow: hidden;
+    }
+    .phone-showcase::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(224,22,58,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .phone-showcase-header {
+      text-align: center; margin-bottom: 2.5rem; position: relative; z-index: 1;
+    }
+    .phone-showcase-eyebrow { font-family: var(--script); font-size: 1.15rem; color: var(--crimson); margin-bottom: .3rem; }
+    .phone-showcase-title { font-family: var(--brush); font-size: clamp(2rem, 3vw, 2.8rem); }
+    .phone-showcase-sub { font-family: var(--satisfy); font-size: 1.2rem; color: var(--cream-dim); margin-top: .4rem; }
+
+    /* phone strip */
+    .phone-strip {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scrollbar-width: none;
+      min-height: 500px;
+    }
+
+    /* single phone mockup */
+    .phone-mockup {
+      flex-shrink: 0;
+      width: 180px;
+      position: relative;
+      cursor: none;
+      transition: transform .35s;
+    }
+    .phone-mockup:hover { transform: translateY(-8px) scale(1.03); }
+
+    /* phone frame */
+    .phone-frame {
+      width: 100%;
+      aspect-ratio: 9 / 19;
+      border-radius: 44px;
+      overflow: hidden;
+      position: relative;
+      background: #1a1a1a;
+      border: 3px solid #3a3a3a;
+      box-shadow:
+        0 0 0 1px #111,
+        inset 0 0 0 2px #555,
+        0 30px 80px rgba(0,0,0,0.6),
+        0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    /* Notch */
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 10px;
+      background: #1a1a1a;
+      border-radius: 0 0 16px 16px;
+      z-index: 10;
+    }
+
+    /* Screen shine */
+    .phone-frame::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%);
+      z-index: 9;
+      pointer-events: none;
+      border-radius: 44px;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 41px;
+    }
+
+    .phone-btn-left-1,
+    .phone-btn-left-2,
+    .phone-btn-right {
+      position: absolute;
+      background: #3a3a3a;
+      border-radius: 2px;
+      z-index: 10;
+    }
+    .phone-btn-left-1 { left: -5px; top: 80px; width: 4px; height: 36px; border-radius: 2px 0 0 2px; }
+    .phone-btn-left-2 { left: -5px; top: 126px; width: 4px; height: 36px; border-radius: 2px 0 0 2px; }
+    .phone-btn-right  { right: -5px; top: 100px; width: 4px; height: 60px; border-radius: 0 2px 2px 0; }
+
+    /* Phone label */
+    .phone-label { text-align: center; margin-top: 1rem; }
+    .phone-label-title { font-family: var(--script); font-size: 1.05rem; color: var(--cream); }
+    .phone-label-sub   { font-family: var(--body); font-size: .8rem; color: var(--cream-dim); margin-top: .15rem; }
+
+    /* how-to bar */
+    .how-to-bar { max-width: 1100px; margin: 0 auto 2.5rem; background: rgba(224,22,58,.05); border: 1px solid rgba(224,22,58,.15); padding: 1.2rem 1.8rem; display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+    .how-to-bar p { font-family: var(--script); font-size: 1.1rem; color: var(--cream-dim); }
+    .how-to-bar p strong { color: var(--crimson); }
+    .how-to-bar .ht-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+    /* journal meta */
+    .journal-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .journal-date { font-family: var(--script); font-size: 1.05rem; color: var(--cream-dim); border: 1px solid rgba(224,22,58,.2); padding: .2rem .8rem; border-radius: 2px; }
+    .journal-dot { width: 5px; height: 5px; background: var(--crimson); border-radius: 50%; flex-shrink: 0; }
+    .journal-line { flex: 1; height: 1px; background: rgba(224,22,58,.1); }
+
+    /* PDF MODAL */
+    .modal-overlay { position: fixed; inset: 0; z-index: 800; background: rgba(7,9,30,.94); backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-overlay.open { display: flex; animation: fadeIn .3s; }
+    .modal-box { background: var(--navy); border: 1px solid rgba(224,22,58,.25); width: 100%; max-width: 960px; max-height: 92vh; display: flex; flex-direction: column; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid rgba(224,22,58,.15); flex-shrink: 0; }
+    .modal-title { font-family: var(--brush); font-size: 1.6rem; }
+    .modal-subtitle { font-family: var(--script); font-size: 1rem; color: var(--crimson); }
+    .modal-type-badge { font-family: var(--script); font-size: .85rem; padding: .2rem .7rem; border-radius: 20px; margin-left: .6rem; vertical-align: middle; }
+    .modal-type-badge.pdf { background: rgba(224,22,58,.15); color: var(--crimson); }
+    .modal-close { font-family: var(--brush); font-size: 1.6rem; background: none; border: none; color: var(--cream-dim); cursor: none; transition: color .2s; padding: .2rem .6rem; }
+    .modal-close:hover { color: var(--crimson); }
+    .modal-body { flex: 1; overflow: hidden; position: relative; min-height: 480px; }
+    .modal-iframe { width: 100%; height: 100%; min-height: 480px; border: none; background: #000; display: block; }
+    .modal-footer { padding: .8rem 1.5rem; border-top: 1px solid rgba(224,22,58,.1); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .modal-footer-note { font-family: var(--script); font-size: .95rem; color: var(--cream-dim); }
+    .modal-footer-note em { color: var(--crimson); font-style: normal; }
+    .modal-placeholder { width: 100%; height: 100%; min-height: 480px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; background: var(--navy-mid); padding: 2rem; text-align: center; }
+    .modal-placeholder-icon { font-size: 4rem; opacity: .25; }
+    .modal-placeholder-title { font-family: var(--satisfy); font-size: 1.5rem; color: var(--cream-dim); }
+    .modal-placeholder-steps { font-family: var(--body); font-size: .88rem; color: rgba(245,240,232,.3); max-width: 340px; line-height: 1.9; text-align: left; }
+    .modal-placeholder-steps strong { color: rgba(245,240,232,.55); }
+
+    /* VIDEO MODAL */
+    #video-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    #video-modal.open { display: flex; }
+    .video-modal-inner {
+      position: relative;
+      width: 90%;
+      max-width: 900px;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    }
+    #modal-video { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; }
+    .video-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ANIMS */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    .d1{transition-delay:.08s;} .d2{transition-delay:.16s;} .d3{transition-delay:.24s;} .d4{transition-delay:.32s;}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      nav { padding:1.2rem 1.5rem; }
+      .nav-links { display:none; }
+      .page-hero { padding:6rem 1.5rem 2rem; }
+      .projects-section { padding:2rem 1.5rem 4rem; }
+      .tab-btn { padding:.8rem 1.2rem; font-size:.95rem; }
+      .project-grid { grid-template-columns:1fr; }
+      .phone-mockup { width:150px; }
+      .modal-box { max-height:95vh; }
+      .modal-body { min-height:300px; }
+      .modal-iframe { min-height:300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div id="cur">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(50,50)">
+        <ellipse rx="7" ry="20" fill="none" stroke="#e0163a" stroke-width="2.5" transform="rotate(0)"/>
+        <ellipse rx="7" ry="20" fill="none" stroke="#e0163a" stroke-width="2.5" transform="rotate(45)"/>
+        <ellipse rx="7" ry="20" fill="none" stroke="#e0163a" stroke-width="2.5" transform="rotate(90)"/>
+        <ellipse rx="7" ry="20" fill="none" stroke="#e0163a" stroke-width="2.5" transform="rotate(135)"/>
+        <circle r="5.5" fill="#e0163a"/>
+        <circle r="2.5" fill="#12153d"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo.png" alt="Chrysanthum" />
+      <span>Chrysanthum</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">a collection of my work</p>
+      <h1 class="page-title">Projects</h1>
+      <p class="page-subtitle">Selected projects in design, storytelling, and content creation.</p>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-nav-wrap">
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="graphic">Graphic Design <span class="tab-count">4</span></button>
+      <button class="tab-btn" data-tab="content">Content Creation <span class="tab-count">7</span></button>
+      <button class="tab-btn" data-tab="ugc">UGC Work <span class="tab-count">TBA</span></button>
+      <button class="tab-btn" data-tab="writing">Content Writing <span class="tab-count">TBA</span></button>
+    </div>
+  </div>
+
+  <!-- GRAPHIC DESIGN -->
+  <section class="projects-section active" id="tab-graphic">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-header-eyebrow">visual identity & design</p>
+        <h2 class="section-header-title">Graphic Design Work</h2>
+        <p class="section-header-desc">Brand identities, logos, visual systems and print work. Click any project to view the full PDF in your browser.</p>
+      </div>
+      
+      <div class="project-grid">
+
+        <!-- Card 1: Chrysanthemum -->
+        <div class="project-card reveal d1">
+          <div class="card-thumb">
+            <img src="assets/logo.png" alt="Chrysanthemum" />
+            <span class="card-thumb-badge badge-pdf">PDF</span>
+          </div>
+          <div class="card-body">
+            <p class="card-category">Brand Identity</p>
+            <h3 class="card-title">Chrysanthemum Brand System</h3>
+            <p class="card-desc">Full visual identity: logo, colour palette, typography, brand guidelines and usage rules.</p>
+            <div class="card-tags">
+              <span class="card-tag">Logo Design</span>
+              <span class="card-tag">Brand System</span>
+              <span class="card-tag">Guidelines</span>
+            </div>
+          </div>
+          <div class="card-actions">
+      <button
+class="card-btn card-btn-crimson"
+onclick="openPDF(
+'Chrysanthemum Brand System',
+'Brand Identity',
+'assets/pdf1.pdf'
+)">
+Test PDF
+</button>
+          </div>
+        </div>
+
+        <!-- Card 2: Letters to the Lost -->
+        <div class="project-card reveal d2">
+          <div class="card-thumb">
+            <img src="assets/LTTL.png" alt="Letters to the Lost" />
+            <span class="card-thumb-badge badge-pdf">PDF</span>
+          </div>
+          <div class="card-body">
+            <p class="card-category">Web Design</p>
+            <h3 class="card-title">Letters to the Lost — Website</h3>
+            <p class="card-desc">Full website design: wireframes, visual design, typography and final mockups for Letters to the Lost.</p>
+            <div class="card-tags">
+              <span class="card-tag">Web Design</span>
+              <span class="card-tag">UI/UX</span>
+              <span class="card-tag">Mockups</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button type="button" class="card-btn card-btn-crimson" onclick="openPDF('Letters to the Lost — Website','Web Design','https://drive.google.com/file/d/17kLuhlyFhUFy4By1E6P550z-STw3fCt3/view?usp=sharing')">View PDF</button>
+          </div>
+        </div>
+
+        <!-- Card 3: Weather Typography -->
+        <div class="project-card reveal d3">
+          <div class="card-thumb">
+            <img src="assets/weather.png" alt="Weather Typography" />
+            <span class="card-thumb-badge badge-pdf">PDF</span>
+          </div>
+          <div class="card-body">
+            <p class="card-category">Typography</p>
+            <h3 class="card-title">Weather — Typography</h3>
+            <p class="card-desc">A typography project exploring weather through expressive phrases, color psychology, and visual experimentation.</p>
+            <div class="card-tags">
+              <span class="card-tag">Publishing</span>
+              <span class="card-tag">Print</span>
+              <span class="card-tag">Typography</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button type="button" class="card-btn card-btn-crimson" onclick="openPDF('Weather — Typography','Typography','https://drive.google.com/file/d/1Wfx0T9_4Dd2eu1bptwbxToULaiqzMowx/view?usp=sharing')">View PDF</button>
+          </div>
+        </div>
+
+        <!-- Card 4: London Camera Exchange -->
+        <div class="project-card reveal d4">
+          <div class="card-thumb">
+            <img src="assets/LCE.png" alt="London Camera Exchange" />
+            <span class="card-thumb-badge badge-pdf">PDF</span>
+          </div>
+          <div class="card-body">
+            <p class="card-category">Web Design</p>
+            <h3 class="card-title">London Camera Exchange — Website</h3>
+            <p class="card-desc">A website redesign project for London Camera Exchange focused on improving user experience, visual hierarchy, and modern digital interaction.</p>
+            <div class="card-tags">
+              <span class="card-tag">Web Design</span>
+              <span class="card-tag">UI/UX</span>
+              <span class="card-tag">Mockups</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button type="button" class="card-btn card-btn-crimson" onclick="openPDF('London Camera Exchange — Website','Web Design','https://drive.google.com/file/d/1MmFUr_2jwdv931ppC29ttye_SwU8mvR7/view?usp=sharing')">View PDF</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT CREATION -->
+<section class="projects-section" id="tab-content">
+  <div class="section-inner">
+
+    <div class="section-header reveal">
+      <p class="section-header-eyebrow">short form • social media • brand content</p>
+      <h2 class="section-header-title">Content Creation</h2>
+      <p class="section-header-desc">
+        A collection of short-form content created for brands and social platforms —
+        focused on storytelling, product presentation, editing, and audience engagement.
+      </p>
+    </div>
+
+    <!-- SHORT FORM SHOWCASE -->
+    <div class="phone-showcase reveal">
+
+      <div class="phone-showcase-header">
+        <p class="phone-showcase-eyebrow">featured projects</p>
+        <h3 class="phone-showcase-title">Short Form Content</h3>
+        <p class="phone-showcase-sub">
+          view campaigns and creative work directly inside the device
+        </p>
+      </div>
+
+      <!-- ROW 1 -->
+      <div class="phone-strip">
+
+        <!-- Medicube -->
+        <div class="phone-mockup">
+          <span class="phone-btn-left-1"></span>
+          <span class="phone-btn-left-2"></span>
+          <span class="phone-btn-right"></span>
+
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <video src="assets/reel1.mp4"
+              playsinline loop muted controls
+              style="width:100%;height:100%;object-fit:cover;"></video>
+            </div>
+          </div>
+
+          <div class="phone-label">
+            <div class="phone-label-title">Medicube</div>
+            <div class="phone-label-sub">
+              Skincare Product
+            </div>
+          </div>
+        </div>
+
+        <!-- Hair Originals -->
+        <div class="phone-mockup">
+          <span class="phone-btn-left-1"></span>
+          <span class="phone-btn-left-2"></span>
+          <span class="phone-btn-right"></span>
+
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <video src="assets/reel2.mp4"
+              playsinline loop muted controls
+              style="width:100%;height:100%;object-fit:cover;"></video>
+            </div>
+          </div>
+
+          <div class="phone-label">
+            <div class="phone-label-title">Hair Originals</div>
+            <div class="phone-label-sub">
+              Haircare Product
+            </div>
+          </div>
+        </div>
+
+        <!-- Only Curls -->
+        <div class="phone-mockup">
+          <span class="phone-btn-left-1"></span>
+          <span class="phone-btn-left-2"></span>
+          <span class="phone-btn-right"></span>
+
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <video src="assets/reel3.mp4"
+              playsinline loop muted controls
+              style="width:100%;height:100%;object-fit:cover;"></video>
+            </div>
+          </div>
+
+          <div class="phone-label">
+            <div class="phone-label-title">Only Curls</div>
+            <div class="phone-label-sub">
+              Haircare Product
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ROW 2 -->
+      <div class="phone-strip" style="margin-top:3rem;">
+
+        <div class="phone-mockup">
+          <span class="phone-btn-left-1"></span>
+          <span class="phone-btn-left-2"></span>
+          <span class="phone-btn-right"></span>
+
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <video src="assets/reel4.mp4"
+              playsinline loop muted controls
+              style="width:100%;height:100%;object-fit:cover;"></video>
+            </div>
+          </div>
+
+          <div class="phone-label">
+            <div class="phone-label-title">Miss Malayali</div>
+            <div class="phone-label-sub">
+              Entertainment
+            </div>
+          </div>
+        </div>
+
+
+        <div class="phone-mockup">
+          <span class="phone-btn-left-1"></span>
+          <span class="phone-btn-left-2"></span>
+          <span class="phone-btn-right"></span>
+
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <video src="assets/reel5.mp4"
+              playsinline loop muted controls
+              style="width:100%;height:100%;object-fit:cover;"></video>
+            </div>
+          </div>
+
+          <div class="phone-label">
+            <div class="phone-label-title">Campaign Five</div>
+            <div class="phone-label-sub">
+              Sponsored Events
+            </div>
+          </div>
+        </div>
+
+
+        <div class="phone-mockup">
+          <span class="phone-btn-left-1"></span>
+          <span class="phone-btn-left-2"></span>
+          <span class="phone-btn-right"></span>
+
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <video src="assets/reel6.mp4"
+              playsinline loop muted controls
+              style="width:100%;height:100%;object-fit:cover;"></video>
+            </div>
+          </div>
+
+          <div class="phone-label">
+            <div class="phone-label-title">Bio:Cule</div>
+            <div class="phone-label-sub">
+              Skincare Product
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+<!-- LONG FORM-->
+<div class="phone-showcase reveal" style="margin-top:4rem;">
+
+  <!-- LONG FORM HEADER -->
+  <div class="phone-showcase-header">
+    <p class="phone-showcase-eyebrow">featured project</p>
+
+    <h3 class="phone-showcase-title">
+      Long Form Video Content
+    </h3>
+
+    <p class="phone-showcase-sub">
+      Extended storytelling, in-depth content, and cinematic creative work.
+    </p>
+  </div>
+
+  <!-- VIDEO CARD -->
+  <div style="
+    max-width:900px;
+    margin:2rem auto;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid rgba(224,22,58,.15);
+    background:var(--navy);
+  ">
+
+    <video
+      src="assets/youtube1.mp4"
+      controls
+      playsinline
+      style="
+        width:100%;
+        display:block;
+      ">
+    </video>
+
+    <div style="padding:1.8rem;">
+
+      <h4 style="
+        font-family:var(--brush);
+        font-size:1.7rem;
+        margin-bottom:.8rem;
+        color:var(--cream);
+      ">
+        The Invisible Man
+      </h4>
+
+      <p style="
+        color:var(--cream-dim);
+        line-height:1.8;
+      ">
+        A short university film exploring the life of a photographer and the quiet struggle of losing one's identity behind the lens; examining how constantly capturing the world around us can sometimes distance us from ourselves.
+      </p>
+
+    </div>
+  </div>
+
+</div>
+
+
+<!-- COMING SOON CARD -->
+<div class="phone-showcase reveal" style="text-align:center;margin-top:3rem;">
+
+  <div class="phone-showcase-header">
+    <p class="phone-showcase-eyebrow">coming soon</p>
+
+    <h3 class="phone-showcase-title">
+      Long Form Content In Progress
+    </h3>
+
+    <p class="phone-showcase-sub">
+      Additional campaigns, collaborations, and new creative work are currently being prepared.
+    </p>
+  </div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- UGC WORK -->
+<section class="projects-section" id="tab-ugc">
+  <div class="section-inner">
+
+    <div class="section-header reveal">
+      <p class="section-header-eyebrow">user generated content</p>
+
+      <h2 class="section-header-title">
+        UGC Portfolio
+      </h2>
+
+      <p class="section-header-desc">
+        New collaborations and upcoming projects are currently being prepared.
+      </p>
+    </div>
+
+    <div class="phone-showcase reveal" style="text-align:center;">
+
+      <div class="phone-showcase-header">
+        <p class="phone-showcase-eyebrow">
+          coming soon
+        </p>
+
+        <h3 class="phone-showcase-title">
+          Something Beautiful Is On The Way
+        </h3>
+
+        <p class="phone-showcase-sub">
+          New UGC campaigns, product showcases, brand collaborations,
+          and creative work will appear here soon.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+<!-- CONTENT WRITING -->
+<section class="projects-section" id="tab-writing">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="section-header-eyebrow">copywriting & articles</p>
+      <h2 class="section-header-title">Content Writing</h2>
+      <p class="section-header-desc">
+        Editorial pieces and written work are currently being curated.
+      </p>
+    </div>
+
+    <div class="phone-showcase reveal" style="text-align:center;">
+      <div class="phone-showcase-header">
+        <p class="phone-showcase-eyebrow">coming soon</p>
+        <h3 class="phone-showcase-title">Words In Progress</h3>
+        <p class="phone-showcase-sub">
+          Essays, articles, research pieces, and copywriting projects will be added here soon.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+  <!-- PDF MODAL CONTAINER -->
+  <div class="modal-overlay" id="pdf-modal" onclick="closePDF(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="modal-project-title">Project Title</h2>
+          <span class="modal-subtitle" id="modal-project-cat">Category</span>
+          <span class="modal-type-badge pdf">In-Browser View</span>
+        </div>
+        <button class="modal-close" onclick="closePDF(null,true)">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-view-body">
+        <!-- Content gets dynamic injection via script handles below -->
+      </div>
+      <div class="modal-footer">
+        <span class="modal-footer-note">Press <em>Esc</em> to close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO MODAL CONTAINER -->
+  <div id="video-modal" onclick="closeVideoModal()">
+    <div class="video-modal-inner" onclick="event.stopPropagation()">
+      <button class="video-modal-close" onclick="closeVideoModal()">&times;</button>
+      <video id="modal-video" controls autoplay playsinline></video>
+    </div>
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Chrysanthum. All rights reserved.</p>
+   
+    <p>Pearlswin Eliza Paul</p>
+  </footer>
+
+
+
+  <!-- RUNTIME LOGIC / SCRIPTS AND STUFF -->
+ <script>
+/* CURSOR */
+const cursor = document.getElementById('cur');
+
+window.addEventListener('mousemove',(e)=>{
+    cursor.style.left=e.clientX+"px";
+    cursor.style.top=e.clientY+"px";
+});
+
+
+/* NAV SCROLL */
+
+const nav=document.getElementById('nav');
+
+window.addEventListener('scroll',()=>{
+    nav.classList.toggle(
+        'scrolled',
+        window.scrollY>40
+    );
+});
+
+
+/* TAB SWITCHING */
+
+const tabButtons=document.querySelectorAll('.tab-btn');
+const sections=document.querySelectorAll('.projects-section');
+
+tabButtons.forEach(button=>{
+
+button.addEventListener('click',()=>{
+
+const target=button.dataset.tab;
+
+tabButtons.forEach(btn=>{
+btn.classList.remove('active');
+});
+
+sections.forEach(section=>{
+section.classList.remove('active');
+});
+
+button.classList.add('active');
+
+document
+.getElementById(`tab-${target}`)
+.classList.add('active');
+
+triggerRevealCalculations();
+
+});
+
+});
+
+
+/* PDF LOGIC */
+
+const pdfModal=document.getElementById('pdf-modal');
+const modalTitle=document.getElementById('modal-project-title');
+const modalCat=document.getElementById('modal-project-cat');
+const modalBody=document.getElementById('modal-view-body');
+
+
+function transformDriveLink(url){
+
+if(!url) return null;
+
+const match=url.match(/\/file\/d\/([^\/]+)/);
+
+if(match){
+
+const fileID=match[1];
+
+return `https://drive.google.com/file/d/${fileID}/preview`;
+
+}
+
+return url;
+
+}
+
+
+
+function openPDF(title,category,url){
+
+modalTitle.textContent=title;
+modalCat.textContent=category;
+
+const embedURL=transformDriveLink(url);
+
+modalBody.innerHTML='';
+
+if(embedURL){
+
+const iframe=document.createElement('iframe');
+
+iframe.className='modal-iframe';
+
+iframe.src=embedURL;
+
+iframe.allow='autoplay';
+
+iframe.loading='lazy';
+
+modalBody.appendChild(iframe);
+
+}else{
+
+modalBody.innerHTML=`
+<div class="modal-placeholder">
+
+<span class="modal-placeholder-icon">
+📄
+</span>
+
+<p class="modal-placeholder-title">
+Document unavailable
+</p>
+
+<p class="modal-placeholder-steps">
+Please add a valid PDF source.
+</p>
+
+</div>
+`;
+
+}
+
+pdfModal.classList.add('open');
+
+}
+
+
+
+function closePDF(event=null,force=false){
+
+if(force||(event&&event.target===pdfModal)){
+
+pdfModal.classList.remove('open');
+
+const iframe=modalBody.querySelector('iframe');
+
+if(iframe){
+
+iframe.src='';
+
+}
+
+modalBody.innerHTML='';
+
+}
+
+}
+
+
+
+/* VIDEO MODAL */
+
+const videoModal=document.getElementById('video-modal');
+const modalVideo=document.getElementById('modal-video');
+
+function openVideoModal(src){
+
+modalVideo.src=src;
+
+videoModal.classList.add('open');
+
+}
+
+
+function closeVideoModal(){
+
+videoModal.pause();
+
+modalVideo.src='';
+
+videoModal.classList.remove('open');
+
+}
+
+
+
+/* ESCAPE KEY */
+
+document.addEventListener('keydown',(e)=>{
+
+if(e.key==="Escape"){
+
+closePDF(null,true);
+
+closeVideoModal();
+
+}
+
+});
+
+
+/* REVEALS */
+
+let revealObserver;
+
+function triggerRevealCalculations(){
+
+if(revealObserver){
+
+revealObserver.disconnect();
+}
+
+const reveals=document.querySelectorAll('.reveal');
+
+revealObserver=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add('visible');
+
+revealObserver.unobserve(entry.target);
+
+}
+
+});
+
+},{
+threshold:.05
+});
+
+reveals.forEach(item=>{
+revealObserver.observe(item);
+});
+
+}
+
+document.addEventListener(
+'DOMContentLoaded',
+triggerRevealCalculations
+);
+</script>
